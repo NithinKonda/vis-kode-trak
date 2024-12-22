@@ -4,7 +4,7 @@ export async function GET(req) {
   try {
     const client = await clientPromise;
     const db = client.db("vsCodeUsageDB");
-    const data = await db.collection("file_activity_log").find().toArray();
+    const data = await db.collection("usage_log").find().toArray();
 
     return new Response(JSON.stringify(data), {
       headers: { "Content-Type": "application/json" },
