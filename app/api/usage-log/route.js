@@ -12,6 +12,7 @@ export async function GET(req) {
           $group: {
             _id: "$date",
             totalDuration: { $sum: "$duration_seconds" },
+            docs: { $push: "$$ROOT" },
           },
         },
         {
@@ -20,17 +21,31 @@ export async function GET(req) {
       ])
       .toArray();
 
-    // Ensure all data is properly serialized
-    const formattedData = data.map(({ _id, totalDuration }) => ({
-      date: _id, // Assuming _id is already a string (check your data schema)
-      totalDuration,
-    }));
+    // Filter out duplicates with very similar durations
+    const filteredData = data.map((group) => {
+      const uniqueDocs = [];
+      group.docs.forEach((doc) => {
+        const isDuplicate = uniqueDocs.some(
+          (uniqueDoc) =>
+            Math.abs(uniqueDoc.duration_seconds - doc.duration_seconds) <= 1
+        );
+        if (!isDuplicate) {
+          uniqueDocs.push(doc);
+        }
+      });
+      return {
+        date: group._id,
+        totalDuration: uniqueDocs.reduce(
+          (sum, doc) => sum + doc.duration_seconds,
+          0
+        ),
+      };
+    });
 
-    return new Response(JSON.stringify(formattedData), {
+    return new Response(JSON.stringify(filteredData), {
       headers: { "Content-Type": "application/json" },
     });
   } catch (error) {
-    console.error("Failed to fetch usage_log data:", error);
     return new Response(JSON.stringify({ error: "Failed to fetch data" }), {
       status: 500,
       headers: { "Content-Type": "application/json" },
