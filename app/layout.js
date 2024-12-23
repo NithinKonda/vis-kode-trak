@@ -1,4 +1,5 @@
 import { Analytics } from "@vercel/analytics/react";
+import styles from "./globals.css";
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
