@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useEffect, useState } from "react";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
@@ -20,12 +20,13 @@ export default function FileExtensionTime() {
   if (!data) {
     return <div>Loading...</div>;
   }
+  const filteredData = data.filter((item) => item.extension !== "git");
 
   const chartData = {
-    labels: data.map((item) => item.extension),
+    labels: filteredData.map((item) => item.extension),
     datasets: [
       {
-        data: data.map((item) => item.total_duration_seconds),
+        data: filteredData.map((item) => item.total_duration_seconds),
         backgroundColor: [
           "rgba(255, 99, 132, 0.6)",
           "rgba(54, 162, 235, 0.6)",
