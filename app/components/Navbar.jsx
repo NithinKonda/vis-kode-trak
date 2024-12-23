@@ -1,22 +1,17 @@
 import React from "react";
+import Link from "next/link";
 const Navbar = () => {
   return (
     <nav className="flex justify-end items-center py-4 px-6 bg-gray-800 text-white">
       <ul className="flex space-x-6">
         <li>
-          <a href="/" className="hover:text-gray-300">
-            Home
-          </a>
+          <Link href="/file-activity-log">File Activity Log</Link>
         </li>
         <li>
-          <a href="/file-activity-log" className="hover:text-gray-300">
-            File Activity Log
-          </a>
+          <Link href="/file-extension-time">File extension Log</Link>
         </li>
         <li>
-          <a href="/usage-log" className="hover:text-gray-300">
-            Usage Log
-          </a>
+          <Link href="/usage-log">Usage Log</Link>
         </li>
       </ul>
     </nav>
