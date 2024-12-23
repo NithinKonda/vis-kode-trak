@@ -14,7 +14,7 @@ const Navbar = () => {
           </a>
         </li>
         <li>
-          <a href="/file-extensions" className="hover:text-gray-400">
+          <a href="/file-extension-time" className="hover:text-gray-400">
             File Extensions
           </a>
         </li>
