@@ -1,5 +1,6 @@
 import Navbar from "./components/Navbar";
 import StatsTable from "./components/StatsTable";
+import Streak from "./components/Streak";
 
 const HomePage = () => {
   return (
@@ -17,6 +18,7 @@ const HomePage = () => {
           </a>
           .
         </p>
+        <Streak />
         <h1 className="text-3xl font-bold mb-6">Dashboard Stats</h1>
         <StatsTable />
       </main>
