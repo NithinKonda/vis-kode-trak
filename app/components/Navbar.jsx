@@ -5,6 +5,9 @@ const Navbar = () => {
     <nav className="flex justify-end items-center py-4 px-6 bg-gray-800 text-white">
       <ul className="flex space-x-6">
         <li>
+          <Link href="/">Home</Link>
+        </li>
+        <li>
           <Link href="/file-activity-log">File Activity Log</Link>
         </li>
         <li>
