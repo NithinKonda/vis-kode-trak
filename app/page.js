@@ -4,7 +4,6 @@ import StatsTable from "./components/StatsTable";
 const HomePage = () => {
   return (
     <div className="min-h-screen bg-black text-white">
-      <Navbar />
       <main className="p-6">
         <p className="text-center text-gray-400 mb-4">
           The data is being fetched from the
