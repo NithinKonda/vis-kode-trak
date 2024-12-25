@@ -1,46 +1,53 @@
 "use client"
 import { useEffect, useState } from "react";
 
-export default function ExtensionUsageBar() {
-  const [extensionData, setExtensionData] = useState([]);
+export default function ExtensionUsage() {
+  const [extensions, setExtensions] = useState([]);
 
   useEffect(() => {
-    async function fetchExtensionData() {
+    async function fetchExtensionUsage() {
       try {
         const response = await fetch("/api/file-extension-time");
         const data = await response.json();
+        const filteredData = data.filter((ext) => ext.extension !== "git");
 
-        const totalDuration = data.reduce((sum, ext) => sum + ext.duration_seconds, 0);
-        const percentages = data.map((ext) => ({
-          name: ext.extension,
-          percentage: (ext.duration_seconds / totalDuration) * 100,
-        }));
+        const totalDuration = filteredData.reduce(
+          (sum, ext) => sum + ext.total_duration_seconds,
+          0
+        );
 
-        setExtensionData(percentages);
+        const formattedExtensions = filteredData
+          .map((ext) => ({
+            name: ext.extension,
+            percentage: totalDuration
+              ? ((ext.total_duration_seconds / totalDuration) * 100).toFixed(2)
+              : 0,
+          }))
+          .sort((a, b) => b.percentage - a.percentage);
+
+        setExtensions(formattedExtensions);
       } catch (error) {
         console.error("Failed to fetch extension usage data", error);
       }
     }
 
-    fetchExtensionData();
+    fetchExtensionUsage();
   }, []);
 
   return (
     <div className="p-4 bg-gray-800 text-white rounded-md shadow-md">
       <h2 className="text-xl font-bold mb-4">Extension Usage</h2>
-      <div className="flex w-full h-6 overflow-hidden rounded-md">
-        {extensionData.map(({ name, percentage }, index) => (
-          <div
-            key={index}
-            className={`h-full`}
-            style={{
-              width: `${percentage}%`,
-              backgroundColor: `hsl(${index * 50}, 70%, 50%)`,
-            }}
-            title={`${name}: ${percentage.toFixed(2)}%`}
-          ></div>
+      <ul className="space-y-2">
+        {extensions.map((ext) => (
+          <li
+            key={ext.name}
+            className="flex justify-between border-b border-gray-600 py-2"
+          >
+            <span>{ext.name}</span>
+            <span>{ext.percentage}%</span>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 }

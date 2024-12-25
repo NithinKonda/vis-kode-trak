@@ -10,7 +10,7 @@ export default function TotalDuration() {
         const response = await fetch("/api/usage-log");
         const data = await response.json();
 
-        // Sum up totalDuration from the API response
+
         const total = data.reduce((sum, log) => sum + log.totalDuration, 0);
         setTotalDuration(total);
       } catch (error) {
