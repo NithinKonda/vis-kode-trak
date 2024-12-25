@@ -1,6 +1,6 @@
-import StreakComponent from "./components/StreakComponent";
-import TotalDuration from "./components/TotalDuration";
-import ExtensionUsageBar from "./components/ExtensionUsageBar";
+import Streak from "./Streak";
+import TotalDuration from "./TotalDuration";
+import ExtensionUsageBar from "./ExtensionUsage";
 
 export default function Dashboard() {
   return (
