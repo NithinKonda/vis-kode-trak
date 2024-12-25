@@ -1,3 +1,4 @@
+"use client"
 import { useEffect, useState } from "react";
 
 export default function TotalDuration() {
@@ -9,7 +10,8 @@ export default function TotalDuration() {
         const response = await fetch("/api/usage-log");
         const data = await response.json();
 
-        const total = data.reduce((sum, log) => sum + log.duration_seconds, 0);
+        // Sum up totalDuration from the API response
+        const total = data.reduce((sum, log) => sum + log.totalDuration, 0);
         setTotalDuration(total);
       } catch (error) {
         console.error("Failed to fetch total duration data", error);
@@ -20,8 +22,10 @@ export default function TotalDuration() {
   }, []);
 
   const formatDuration = (seconds) => {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
+    if (!seconds || isNaN(seconds)) return "0h 0m";
+    const totalMinutes = Math.floor(seconds / 60); 
+    const hours = Math.floor(totalMinutes / 60); 
+    const minutes = totalMinutes % 60; 
     return `${hours}h ${minutes}m`;
   };
 
