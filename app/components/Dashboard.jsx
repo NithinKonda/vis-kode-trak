@@ -10,7 +10,7 @@ export default function Dashboard() {
         <Streak />
         <TotalDuration />
       </div>
-      <div className="mt-8">
+      <div className="mt-2">
         <ExtensionUsageBar />
       </div>
     </div>
