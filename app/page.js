@@ -10,7 +10,7 @@ const HomePage = () => {
         <p className="text-center text-gray-400 mb-4">
           The data is being fetched from the
           <a
-            href="https://github.com/NithinKonda/kode-trak"
+            href="https://marketplace.visualstudio.com/manage/publishers/nithinkonda/extensions/kode-trak/hub?_a=acquisition"
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-500 underline ml-1"
