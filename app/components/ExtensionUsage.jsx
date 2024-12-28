@@ -10,7 +10,6 @@ export default function ExtensionUsageChart() {
         const response = await fetch("/api/file-extension-time");
         const data = await response.json();
 
-
         const filteredData = data
           .filter((ext) => ext.extension !== "git")
           .sort((a, b) => b.total_duration_seconds - a.total_duration_seconds)
@@ -21,13 +20,14 @@ export default function ExtensionUsageChart() {
           0
         );
 
+        const uniqueColors = getUniqueColors(filteredData.length);
 
-        const formattedExtensions = filteredData.map((ext) => ({
+        const formattedExtensions = filteredData.map((ext, index) => ({
           name: ext.extension,
           percentage: totalDuration
             ? ((ext.total_duration_seconds / totalDuration) * 100).toFixed(2)
             : 0,
-          color: getRandomColor(), 
+          color: uniqueColors[index], // Assign unique color
         }));
 
         setExtensions(formattedExtensions);
@@ -39,24 +39,24 @@ export default function ExtensionUsageChart() {
     fetchExtensionUsage();
   }, []);
 
-
-  function getRandomColor() {
+  function getUniqueColors(count) {
     const colors = [
-      "#F59E0B", 
-      "#3B82F6", 
-      "#EF4444", 
-      "#10B981", 
-      "#8B5CF6", 
-      "#F472B6", 
+      "#F59E0B", // Amber
+      "#3B82F6", // Blue
+      "#EF4444", // Red
+      "#10B981", // Green
+      "#8B5CF6", // Purple
+      "#F472B6", // Pink
+      "#34D399", // Teal
+      "#FB923C", // Orange
     ];
-    return colors[Math.floor(Math.random() * colors.length)];
+
+    return colors.slice(0, count); // Ensure no duplicate colors
   }
 
   return (
     <div className="p-4 bg-gray-800 text-white rounded-md shadow-md">
       <h2 className="text-xl font-bold mb-4">Extension Usage</h2>
-      
-
       <div className="relative h-2 bg-gray-700 rounded-full mb-6">
         <div className="flex h-full rounded-full overflow-hidden">
           {extensions.map((ext) => (
@@ -70,8 +70,6 @@ export default function ExtensionUsageChart() {
           ))}
         </div>
       </div>
-
-
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
           {extensions.slice(0, 3).map((ext) => (
